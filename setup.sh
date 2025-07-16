@@ -12,23 +12,24 @@ err()  { echo -e "\033[1;31m[ERR ]\033[0m $*"; }
 
 clear
 info "Updating system..."
-sudo dnf update -y
+sudo dnf update -y > /dev/null
 
 info "Installing DevTools Group..."
-sudo dnf groupinstall -y "Development Tools"
+sudo dnf groupinstall -y "Development Tools" > /dev/null
 
 info "Installing Clang..."
-sudo dnf install -y clang clang++
+sudo dnf install -y clang clang++ > /dev/null
 
 info "Installing Build tools..."
-sudo dnf install -y cmake ninja-build
+sudo dnf install -y cmake ninja-build > /dev/null
 
 info "Installing Python 3.13..."
-sudo dnf install -y python3 python3-pip python3-venv
+sudo dnf install -y python3 python3-pip python3-venv > /dev/null
 
 # Curl into and install Rust if not found
 if ! command -v rustc >/dev/null 2>&1 then
 	info "Fetching Rust toolchain..."
+	# curl command yoinked right from rust-lang.org
 	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustiup.rs | sh -s -- -y
 	source "$HOME/.cargo/env"
 else
@@ -37,13 +38,14 @@ fi
 
 # Fetch Lua and its luarocks pkg system
 info "Installing Lua + Luarocks..."
-sudo dnf install -y lua lua-devel luarocks
+sudo dnf install -y lua lua-devel luarocks > /dev/null
 
+# Misc but good tui utils
 info "Installing utility packages..."
-sudo dnf install -y git neovim htop tmux
+sudo dnf install -y git neovim htop tmux > /dev/null
 
 info "Installing GNOME Tweaks..."
-sudo dnf install -y gnome-tweaks gnome-extensions-app
+sudo dnf install -y gnome-tweaks gnome-extensions-app > /dev/null
 
 ok "Setup complete, enjoy your new system!"
 sleep 5
